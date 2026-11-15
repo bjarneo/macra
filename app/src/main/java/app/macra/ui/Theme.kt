@@ -30,10 +30,8 @@ data class Tokens(
     val onAcc: Color,
 )
 
-val ACCENTS = listOf("#FF2E4C", "#D4FF3A", "#2F5BFF", "#FF7A1A")
-
-fun tokens(dark: Boolean, accentHex: String): Tokens {
-    val acc = parseHex(accentHex) ?: Color(0xFFFF2E4C)
+fun tokens(dark: Boolean): Tokens {
+    val acc = Color(0xFFFF2E4C)
     val onAcc = onColor(acc)
     return if (dark) {
         Tokens(
@@ -54,12 +52,6 @@ fun tokens(dark: Boolean, accentHex: String): Tokens {
     }
 }
 
-fun parseHex(hex: String): Color? {
-    val h = hex.trim().removePrefix("#")
-    if (h.length != 6) return null
-    return h.toLongOrNull(16)?.let { Color(0xFF000000 or it) }
-}
-
 /** Picks near-black or white text for the best contrast on the accent color. */
 fun onColor(c: Color): Color {
     fun lin(v: Float): Double = if (v <= 0.03928) v / 12.92 else ((v + 0.055) / 1.055).pow(2.4)
@@ -67,7 +59,7 @@ fun onColor(c: Color): Color {
     return if ((l + 0.05) / 0.05 >= 1.05 / (l + 0.05)) Color(0xFF0C0C0D) else Color.White
 }
 
-val LocalT = staticCompositionLocalOf { tokens(true, ACCENTS[0]) }
+val LocalT = staticCompositionLocalOf { tokens(true) }
 
 private val WEIGHTS = listOf(400, 500, 600, 650, 700, 750, 800)
 

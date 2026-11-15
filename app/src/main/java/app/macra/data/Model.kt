@@ -63,21 +63,11 @@ data class Goals(val p: Int = 180, val c: Int = 230, val fat: Int = 70, val wate
 }
 
 @Serializable
-data class Profile(
-    val name: String = "",
-    val heightCm: Int? = null,
-    val age: Int? = null,
-    val activity: String = "Moderate",
-    val goalKg: Double? = null,
-)
+data class Profile(val goalKg: Double? = null)
 
 @Serializable
 data class Settings(
     val theme: String = "Dark",
-    val accent: String = "#FF2E4C",
-    val dash: String = "Ledger",
-    val count: String = "Remaining",
-    val quickAdd: Boolean = true,
     val remMeals: Boolean = false,
     val remWater: Boolean = false,
     val remWeigh: Boolean = false,

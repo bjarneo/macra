@@ -47,7 +47,6 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
@@ -59,15 +58,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -76,7 +75,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
@@ -91,8 +89,6 @@ import app.macra.Tab
 import app.macra.health.Health
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 private fun scheme(T: Tokens) = if (T.dark) {
     darkColorScheme(
@@ -114,7 +110,7 @@ private fun scheme(T: Tokens) = if (T.dark) {
 fun MacraApp(vm: MacraViewModel) {
     val d by vm.data.collectAsStateWithLifecycle()
     val u by vm.ui.collectAsStateWithLifecycle()
-    val T = remember(d.settings.theme, d.settings.accent) { tokens(d.settings.theme != "Light", d.settings.accent) }
+    val T = remember(d.settings.theme) { tokens(d.settings.theme != "Light") }
     val ctx = LocalContext.current
     val activity = ctx as Activity
     val view = LocalView.current
@@ -231,18 +227,14 @@ fun MacraApp(vm: MacraViewModel) {
                         when (u.tab) {
                             Tab.Diary -> DiaryScreen(d, u, vm) { pickDate = true }
                             Tab.Progress -> ProgressScreen(d, u, vm)
-                            Tab.Profile -> ProfileScreen(d, u, vm, onToggle, onExport)
+                            Tab.Settings -> SettingsScreen(d, vm, onToggle, onExport)
                         }
-                        if (u.tab == Tab.Diary) Fabs(vm, Modifier.align(Alignment.BottomEnd))
                     }
                     TabBar(u.tab, vm::setTab)
                 }
 
                 Overlay(Screen.Search in u.stack, Slide.Right) {
                     Box(Modifier.fillMaxSize().background(T.bg).safeDrawingPadding()) { SearchScreen(d, u, vm) }
-                }
-                Overlay(Screen.Nutr in u.stack, Slide.Right) {
-                    Box(Modifier.fillMaxSize().background(T.bg).safeDrawingPadding()) { NutrientsScreen(d, u, vm) }
                 }
                 Overlay(Screen.Scan in u.stack, Slide.Fade) {
                     ScanScreen(u, vm, camGranted, allowCamera)
@@ -254,9 +246,6 @@ fun MacraApp(vm: MacraViewModel) {
                 }
                 Overlay(u.top == Screen.Weight, Slide.Fade) {
                     WeightSheet(d, u, vm)
-                }
-                Overlay(u.top == Screen.EditProfile, Slide.Fade) {
-                    EditProfileSheet(d.profile, d.weights.lastOrNull()?.kg, vm::goBack, vm::saveProfile)
                 }
 
                 SnackHost(u.snack, vm)
@@ -364,13 +353,8 @@ fun Sheet(onDismiss: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
 @Composable
 private fun WeightSheet(d: app.macra.data.Data, u: app.macra.Ui, vm: MacraViewModel) {
     val T = LocalT.current
-    val now = remember { LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) }
-    val prev = d.weights.lastOrNull { it.day < u.today }
     Sheet(vm::goBack) {
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Label("Log weight")
-            Txt("Today, ${dayMonth(date(u.today))} · $now", 15f, color = T.muted)
-        }
+        Label("Log weight for today")
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally)) {
             StepBtn("remove", { vm.stepWeight(-0.1) }, size = 56, radius = 18, iconSize = 26, desc = "Lower")
             Row(Modifier.widthIn(min = 170.dp), horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally)) {
@@ -379,38 +363,9 @@ private fun WeightSheet(d: app.macra.data.Data, u: app.macra.Ui, vm: MacraViewMo
             }
             StepBtn("add", { vm.stepWeight(0.1) }, size = 56, radius = 18, iconSize = 26, desc = "Raise")
         }
-        val delta = when {
-            prev == null -> "First weigh-in"
-            else -> {
-                val whenTxt = if (prev.day == u.today - 1) "yesterday" else dayMonth(date(prev.day))
-                "${signed1(u.wDraft - prev.kg)} kg vs $whenTxt (${kg1(prev.kg)} kg)"
-            }
-        }
-        Txt(delta, 13f, color = T.muted, modifier = Modifier.fillMaxWidth(), tnum = true, align = TextAlign.Center)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             SheetBtn("Cancel", false, vm::goBack)
             SheetBtn("Save", true, vm::saveWeight)
-        }
-    }
-}
-
-@Composable
-private fun Fabs(vm: MacraViewModel, modifier: Modifier) {
-    val T = LocalT.current
-    Column(modifier.padding(end = 16.dp, bottom = 16.dp), horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        val s16 = RoundedCornerShape(16.dp)
-        Box(
-            Modifier.size(52.dp).shadow(10.dp, s16).clip(s16).background(T.surface2).clickable(onClick = vm::openScan),
-            contentAlignment = Alignment.Center,
-        ) { Sym("barcode_scanner", 24) }
-        val s18 = RoundedCornerShape(18.dp)
-        Row(
-            Modifier.height(56.dp).shadow(12.dp, s18).clip(s18).background(T.acc).clickable { vm.openSearch() }.padding(start = 18.dp, end = 22.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Sym("add", 24, T.onAcc)
-            Txt("Log food", 16f, 750, T.onAcc)
         }
     }
 }
@@ -421,7 +376,7 @@ private fun TabBar(tab: Tab, onSelect: (Tab) -> Unit) {
     Column(Modifier.fillMaxWidth().background(T.bg)) {
         Divider()
         Row(Modifier.fillMaxWidth().height(80.dp)) {
-            listOf(Triple(Tab.Diary, "Diary", "menu_book"), Triple(Tab.Progress, "Progress", "monitoring"), Triple(Tab.Profile, "Profile", "person")).forEach { (t, label, icon) ->
+            listOf(Triple(Tab.Diary, "Diary", "menu_book"), Triple(Tab.Progress, "Progress", "monitoring"), Triple(Tab.Settings, "Settings", "settings")).forEach { (t, label, icon) ->
                 val on = t == tab
                 val pill by animateColorAsState(if (on) T.ink else Color.Transparent, tween(150), label = "pill")
                 Column(

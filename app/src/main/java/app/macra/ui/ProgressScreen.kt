@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,13 +19,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
@@ -53,13 +51,9 @@ fun ProgressScreen(d: Data, u: Ui, vm: MacraViewModel) {
             .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Column(Modifier.padding(start = 4.dp, top = 4.dp, bottom = 4.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Label(dateSub(u.today))
-            Txt("Progress", 30f, 800, ls = -0.035f, lh = 1.1f)
-        }
+        Txt("Progress", 30f, 800, modifier = Modifier.padding(start = 4.dp, top = 8.dp, bottom = 4.dp), ls = -0.035f, lh = 1.1f)
         WeightCard(d, u, vm)
         EnergyCard(d, u, vm)
-        ProteinCard(d, u)
         AveragesCard(d, u)
     }
 }
@@ -109,13 +103,10 @@ private fun WeightCard(d: Data, u: Ui, vm: MacraViewModel) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Column(
-                    Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).clickable(onClick = vm::openEditProfile),
-                    verticalArrangement = Arrangement.spacedBy(2.dp),
-                ) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Label(if (goal != null) "Goal ${kg1(goal)} kg" else "No goal set")
                     val toGo = when {
-                        goal == null -> "Tap to set a goal weight"
+                        goal == null -> "Set it in Settings"
                         cur == null -> "Log a weight to start"
                         abs(cur - goal) < 0.05 -> "Goal reached"
                         else -> "${kg1(abs(cur - goal))} kg to go"
@@ -216,36 +207,6 @@ private fun EnergyCard(d: Data, u: Ui, vm: MacraViewModel) {
             days7.forEachIndexed { i, (day, _) ->
                 val on = i == u.barSel
                 Txt(dowLetter(date(day)), 12f, if (on) 800 else 500, if (on) T.ink else T.muted, Modifier.weight(1f), align = TextAlign.Center)
-            }
-        }
-        Txt("Dashed line: ${fmt(goalK)} kcal target. Average excludes today and days with no entries.", 12f, color = T.muted)
-    }
-}
-
-@Composable
-private fun ProteinCard(d: Data, u: Ui) {
-    val T = LocalT.current
-    val g = d.goals
-    val days7 = (u.today - 6..u.today).map { it to d.dayTotal(it) }
-    val hits = days7.count { it.second.p >= g.p * 0.9 }
-    Card(gap = 14) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Label("Protein target hit", Modifier.alignByBaseline())
-            Txt("≥ 90% of ${g.p} g", 12f, color = T.muted, modifier = Modifier.alignByBaseline())
-        }
-        BigNum(hits.toString(), "of 7 days", 40f, 14f, ls = -0.045f)
-        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            days7.forEach { (day, t) ->
-                val hit = t.p >= g.p * 0.9
-                Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Box(
-                        Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(10.dp)).background(if (hit) T.p else T.surface2),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Txt(fmt(t.p), 12f, 750, if (hit) (if (T.dark) Color(0xFF0C0C0D) else Color.White) else T.ink, tnum = true, maxLines = 1)
-                    }
-                    Txt(dowLetter(date(day)), 11f, color = T.muted)
-                }
             }
         }
     }

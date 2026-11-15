@@ -1,17 +1,19 @@
 # Macra
 
-Macra is a nutrition tracker for Android. Log food, water, and weight, and compare each day with your calorie and macro targets.
+Macra is a free calorie and macro tracker for Android. It has no account, no server, and no ads.
+
+Product page: https://bjarneo.github.io/macra/
 
 ## Features
 
-- Diary with a week strip, four meals, water, and a nutrient summary.
-- Food search in a built-in list and in Open Food Facts.
+- A diary with the kcal and macros left for the day, four meals, water, and other nutrients.
+- Food search in 21 built-in foods and in Open Food Facts.
 - Barcode scan with the camera.
-- Weight log with a 7-day average, and charts for energy, protein, and macros.
+- A weight log with a 7-day average, and the kcal and macro averages for the last week.
 - Reminders for meals, water, and weigh-ins.
 - Weight sync with Health Connect.
 - CSV export of food, water, and weight.
-- Dark and light themes, with a choice of accent colors.
+- Dark and light themes.
 
 ## Install
 
@@ -42,6 +44,14 @@ keyPassword=PASSWORD
 
 Without this file, the release build uses the debug key.
 
+The product page is an Astro site in `site/`. GitHub Actions builds it and deploys it to GitHub Pages. To run it locally:
+
+```
+cd site
+npm install
+npm run dev
+```
+
 ## Data
 
 - The app stores all of your data on the phone, in one file: `macra.json`.
@@ -49,3 +59,12 @@ Without this file, the release build uses the debug key.
 - The built-in food list has 21 generic foods. The values are per 100 g.
 - Barcode scans and search use [Open Food Facts](https://world.openfoodfacts.org). The request sends only the barcode or the search text.
 - Open Food Facts data is available under the [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/).
+
+## License
+
+Macra is under the [MIT license](LICENSE).
+
+The app includes these fonts:
+
+- Host Grotesk, under the SIL Open Font License 1.1. See `licenses/OFL-HostGrotesk.txt`.
+- Material Symbols, under the Apache License 2.0. See `licenses/Apache-2.0-MaterialSymbols.txt`.

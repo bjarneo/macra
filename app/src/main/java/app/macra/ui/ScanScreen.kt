@@ -34,18 +34,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -68,7 +67,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import app.macra.MacraViewModel
 import app.macra.ScanState
 import app.macra.Ui
-import app.macra.data.per
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
@@ -117,9 +115,6 @@ fun ScanScreen(u: Ui, vm: MacraViewModel, camGranted: Boolean, onAllowCamera: ()
                     is ScanState.LookingUp -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         CircularProgressIndicator(Modifier.size(40.dp), color = WHITE, strokeWidth = 3.dp)
                     }
-                    is ScanState.Found -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Box(Modifier.size(64.dp).clip(CircleShape).background(T.acc), contentAlignment = Alignment.Center) { Sym("check", 36, T.onAcc) }
-                    }
                     else -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         Box(Modifier.size(64.dp).clip(CircleShape).background(Color.Black.copy(alpha = 0.5f)), contentAlignment = Alignment.Center) {
                             Sym(if (s is ScanState.Failed) "wifi_off" else "error", 32, WHITE)
@@ -139,17 +134,11 @@ fun ScanScreen(u: Ui, vm: MacraViewModel, camGranted: Boolean, onAllowCamera: ()
                     else -> "Barcode read"
                 }
                 Txt(hint, 15f, 600, WHITE, align = TextAlign.Center)
-                Txt(if (camGranted) "EAN-13, EAN-8, UPC-A and UPC-E" else "Allow the camera to scan barcodes.", 13f, color = WHITE.copy(alpha = 0.55f), align = TextAlign.Center)
                 if (!camGranted) OutlineBtn("Allow camera", "barcode_scanner", onAllowCamera, Modifier.padding(top = 12.dp), color = WHITE, border = WHITE.copy(alpha = 0.3f))
             }
         }
-        if (s is ScanState.Scanning || s is ScanState.LookingUp) {
-            Box(Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 28.dp)) {
-                OutlineBtn("Search by name instead", "search", vm::scanToSearch, height = 44, color = WHITE, border = WHITE.copy(alpha = 0.3f), bg = Color.Black.copy(alpha = 0.4f))
-            }
-        }
         AnimatedVisibility(
-            visible = s is ScanState.Found || s is ScanState.Missing || s is ScanState.Failed,
+            visible = s is ScanState.Missing || s is ScanState.Failed,
             modifier = Modifier.align(Alignment.BottomCenter),
             enter = slideInVertically(tween(280, easing = EASE)) { it / 3 } + fadeIn(tween(200)),
             exit = fadeOut(tween(120)),
@@ -174,31 +163,6 @@ private fun ResultSheet(s: ScanState, vm: MacraViewModel) {
     ) {
         Handle()
         when (s) {
-            is ScanState.Found -> {
-                val f = s.food
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Label("Product found · EAN ${s.code}")
-                    Txt(f.name, 22f, 800, ls = -0.02f, maxLines = 2, ellipsis = true)
-                    val serving = f.serv.firstOrNull()
-                    Txt(if (serving != null) "${serving.label} · ${serving.g} g" else "Values for ${f.def} g", 13f, color = T.muted)
-                }
-                val b = f.per(f.def.toDouble())
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf(fmt(b.kcal) to "kcal", r1(b.p) to "Prot g", r1(b.c) to "Carb g", r1(b.fat) to "Fat g").forEach { (v, l) ->
-                        Column(
-                            Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).background(T.surface2).padding(horizontal = 12.dp, vertical = 10.dp),
-                            verticalArrangement = Arrangement.spacedBy(2.dp),
-                        ) {
-                            Txt(v, 18f, 800, tnum = true, maxLines = 1)
-                            Txt(l.uppercase(), 11f, 700, T.muted, ls = 0.06f, maxLines = 1)
-                        }
-                    }
-                }
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    SheetBtn("Scan again", false, vm::scanAgain)
-                    SheetBtn("Review and add", true, vm::scanReview, weight = 1.4f)
-                }
-            }
             is ScanState.Missing -> {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Label("No match · EAN ${s.code}")

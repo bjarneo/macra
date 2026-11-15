@@ -48,7 +48,6 @@ fun SearchScreen(d: Data, u: Ui, vm: MacraViewModel) {
     val T = LocalT.current
     val focus = remember { FocusRequester() }
     val kb = LocalSoftwareKeyboardController.current
-    val quick = d.settings.quickAdd
     LaunchedEffect(Unit) {
         delay(240)
         runCatching { focus.requestFocus() }
@@ -111,7 +110,7 @@ fun SearchScreen(d: Data, u: Ui, vm: MacraViewModel) {
             Label("kcal")
         }
         LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(bottom = 24.dp)) {
-            items(local, key = { "l:" + it.id }) { f -> ResultRow(f, quick, null, vm) }
+            items(local, key = { "l:" + it.id }) { f -> ResultRow(f, null, vm) }
             if (showOnline) {
                 item(key = "online") {
                     Row(Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp, top = 18.dp, bottom = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -129,7 +128,7 @@ fun SearchScreen(d: Data, u: Ui, vm: MacraViewModel) {
                 } else if (!u.online.loading && online.isEmpty() && local.isNotEmpty()) {
                     item(key = "none") { Txt("No other matches online.", 14f, color = T.muted, modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp)) }
                 }
-                items(online, key = { "o:" + it.id }) { f -> ResultRow(f, quick, f.src.removePrefix("Open Food Facts").removePrefix(" · ").ifBlank { null }, vm) }
+                items(online, key = { "o:" + it.id }) { f -> ResultRow(f, f.src.removePrefix("Open Food Facts").removePrefix(" · ").ifBlank { null }, vm) }
             }
             if (noResults) {
                 item(key = "empty") {
@@ -140,11 +139,10 @@ fun SearchScreen(d: Data, u: Ui, vm: MacraViewModel) {
                     ) {
                         Txt("No match for “${u.query.trim()}”", 16f, 650, align = TextAlign.Center)
                         Txt(
-                            if (q.length < 3) "Type 3 letters or more to search Open Food Facts, or scan the barcode on the package."
-                            else "Try a shorter term, or scan the barcode on the package.",
+                            if (q.length < 3) "Type 3 letters or more to search Open Food Facts."
+                            else "Try a shorter term, or scan the barcode.",
                             14f, color = T.muted, align = TextAlign.Center,
                         )
-                        OutlineBtn("Scan barcode", "barcode_scanner", vm::openScan, Modifier.padding(top = 8.dp))
                     }
                 }
             }
@@ -153,7 +151,7 @@ fun SearchScreen(d: Data, u: Ui, vm: MacraViewModel) {
 }
 
 @Composable
-private fun ResultRow(f: Food, quick: Boolean, brand: String?, vm: MacraViewModel) {
+private fun ResultRow(f: Food, brand: String?, vm: MacraViewModel) {
     val T = LocalT.current
     val n = f.per(f.def.toDouble())
     Row(
@@ -167,10 +165,6 @@ private fun ResultRow(f: Food, quick: Boolean, brand: String?, vm: MacraViewMode
             Txt(if (brand != null) "$brand · $macros" else macros, 13f, color = T.muted, tnum = true, maxLines = 1, ellipsis = true)
         }
         Txt(fmt(n.kcal), 16f, 750, tnum = true)
-        if (quick) {
-            IconBtn("add", { vm.quickAdd(f) }, size = 40, bg = T.surface, iconSize = 22, desc = "Add ${f.name}")
-        } else {
-            Sym("chevron_right", 22, T.muted)
-        }
+        IconBtn("add", { vm.quickAdd(f) }, size = 40, bg = T.surface, iconSize = 22, desc = "Add ${f.name}")
     }
 }

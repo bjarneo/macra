@@ -11,7 +11,6 @@ import app.macra.data.FOOD_MAP
 import app.macra.data.Food
 import app.macra.data.Meal
 import app.macra.data.OpenFoodFacts
-import app.macra.data.Profile
 import app.macra.data.Settings
 import app.macra.data.Store
 import app.macra.health.Health
@@ -29,9 +28,9 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 
-enum class Tab { Diary, Progress, Profile }
+enum class Tab { Diary, Progress, Settings }
 
-enum class Screen { Search, Nutr, Scan, Food, Weight, EditProfile }
+enum class Screen { Search, Scan, Food, Weight }
 
 data class FoodDraft(
     val food: Food,
@@ -46,7 +45,6 @@ data class FoodDraft(
 sealed interface ScanState {
     data object Scanning : ScanState
     data class LookingUp(val code: String) : ScanState
-    data class Found(val food: Food, val code: String) : ScanState
     data class Missing(val code: String, val noNutrition: Boolean) : ScanState
     data class Failed(val code: String) : ScanState
 }
@@ -89,6 +87,7 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
     private var saveJob: Job? = null
     private var snackJob: Job? = null
     private var searchJob: Job? = null
+    private var ignoreCode: String? = null
 
     private fun ui(f: (Ui) -> Ui) = _ui.update(f)
 
@@ -134,8 +133,6 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
         val popped = u.stack.lastOrNull()
         u.copy(stack = u.stack.dropLast(1), fd = if (popped == Screen.Food) null else u.fd, torch = if (popped == Screen.Scan) false else u.torch)
     }
-
-    fun openNutrients() = ui { it.copy(stack = listOf(Screen.Nutr)) }
 
     fun handleAction(action: String?) {
         if (action.isNullOrEmpty()) return
@@ -317,6 +314,7 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
     // Scan
 
     fun openScan() = ui { u ->
+        ignoreCode = null
         val fromSearch = u.top == Screen.Search
         u.copy(
             stack = if (fromSearch) u.stack + Screen.Scan else listOf(Screen.Scan),
@@ -327,10 +325,10 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun onBarcode(code: String) {
-        if (_ui.value.scan != ScanState.Scanning || _ui.value.top != Screen.Scan) return
+        if (_ui.value.scan != ScanState.Scanning || _ui.value.top != Screen.Scan || code == ignoreCode) return
         val local = _data.value.foods.firstOrNull { it.barcode == code || it.barcode == "0$code" || "0${it.barcode}" == code }
         if (local != null) {
-            ui { it.copy(scan = ScanState.Found(local, code)) }
+            found(local, code)
             return
         }
         val looking = ScanState.LookingUp(code)
@@ -338,10 +336,14 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val r = OpenFoodFacts.product(code)
             if (_ui.value.scan != looking) return@launch
+            if (r is OpenFoodFacts.Lookup.Found) {
+                found(r.food, code)
+                return@launch
+            }
             ui {
                 it.copy(
                     scan = when (r) {
-                        is OpenFoodFacts.Lookup.Found -> ScanState.Found(r.food, code)
+                        is OpenFoodFacts.Lookup.Found -> ScanState.Scanning
                         OpenFoodFacts.Lookup.NotFound -> ScanState.Missing(code, noNutrition = false)
                         OpenFoodFacts.Lookup.NoNutrition -> ScanState.Missing(code, noNutrition = true)
                         is OpenFoodFacts.Lookup.Failed -> ScanState.Failed(code)
@@ -357,12 +359,14 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
         onBarcode(s.code)
     }
 
-    fun scanAgain() = ui { it.copy(scan = ScanState.Scanning) }
-
-    fun scanReview() {
-        val s = _ui.value.scan as? ScanState.Found ?: return
-        openFood(s.food)
+    /** Opens the product. The scanner then ignores this barcode, so that it does not open the product again. */
+    private fun found(food: Food, code: String) {
+        ignoreCode = code
+        ui { it.copy(scan = ScanState.Scanning) }
+        openFood(food)
     }
+
+    fun scanAgain() = ui { it.copy(scan = ScanState.Scanning) }
 
     fun scanToSearch() = ui { u ->
         val i = u.stack.indexOf(Screen.Search)
@@ -415,11 +419,15 @@ class MacraViewModel(app: Application) : AndroidViewModel(app) {
         )
     }
 
-    fun openEditProfile() = ui { it.copy(stack = listOf(Screen.EditProfile)) }
-
-    fun saveProfile(p: Profile) {
-        update { it.copy(profile = p) }
-        ui { it.copy(stack = emptyList()) }
+    /** The first step sets the goal to the latest weight. Later steps change it by [delta] kg. */
+    fun stepGoalWeight(delta: Double) = update { d ->
+        val goal = d.profile.goalKg
+        val next = if (goal == null) {
+            d.weights.lastOrNull()?.kg?.let { Math.round(it * 2) / 2.0 } ?: 75.0
+        } else {
+            (Math.round((goal + delta) * 2) / 2.0).coerceIn(30.0, 300.0)
+        }
+        d.copy(profile = d.profile.copy(goalKg = next))
     }
 
     fun setSettings(f: (Settings) -> Settings) {
