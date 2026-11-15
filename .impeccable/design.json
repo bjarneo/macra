@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T00:00:00Z",
+  "title": "Design System: Macra",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "canonical": "oklch(15.5% 0.002 286.2)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242425",
+          "#3f3f41",
+          "#5d5d5f",
+          "#808081",
+          "#a4a4a6",
+          "#cacacc",
+          "#eeeef0"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "oklch(21.0% 0.004 286.1)",
+        "tonalRamp": [
+          "#0b0b0d",
+          "#242426",
+          "#3f3f42",
+          "#5d5d60",
+          "#808082",
+          "#a4a4a7",
+          "#cacacd",
+          "#eeeef1"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Surface 2",
+        "canonical": "oklch(26.2% 0.006 286.0)",
+        "tonalRamp": [
+          "#0b0b0d",
+          "#242427",
+          "#3f3f43",
+          "#5d5d61",
+          "#808083",
+          "#a4a4a8",
+          "#cacace",
+          "#eeeef2"
+        ]
+      },
+      "bar": {
+        "role": "neutral",
+        "displayName": "Bar",
+        "canonical": "oklch(35.0% 0.007 286.0)",
+        "tonalRamp": [
+          "#0b0b0e",
+          "#242427",
+          "#3f3f43",
+          "#5d5d61",
+          "#808084",
+          "#a4a4a9",
+          "#cacacf",
+          "#eeeef3"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(96.9% 0.004 106.5)",
+        "tonalRamp": [
+          "#0b0b09",
+          "#242422",
+          "#40403d",
+          "#5e5e5b",
+          "#80807e",
+          "#a5a5a2",
+          "#cbcbc8",
+          "#efefec"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "oklch(68.8% 0.006 106.5)",
+        "tonalRamp": [
+          "#0b0b09",
+          "#242421",
+          "#40403c",
+          "#5e5e5a",
+          "#80807d",
+          "#a5a5a1",
+          "#cbcbc7",
+          "#efefea"
+        ]
+      },
+      "action-red": {
+        "role": "primary",
+        "displayName": "Action Red",
+        "canonical": "oklch(64.9% 0.238 20.5)",
+        "tonalRamp": [
+          "#220001",
+          "#4a010c",
+          "#7a061c",
+          "#ae102d",
+          "#ed0b3d",
+          "#fd7276",
+          "#ffb4b2",
+          "#fee9e8"
+        ]
+      },
+      "ring-orange": {
+        "role": "secondary",
+        "displayName": "Ring Orange",
+        "canonical": "oklch(72.4% 0.187 48.9)",
+        "tonalRamp": [
+          "#1d0200",
+          "#3f1600",
+          "#662d04",
+          "#93440b",
+          "#c85d09",
+          "#fe7918",
+          "#feb893",
+          "#ffeadf"
+        ]
+      },
+      "protein-blue": {
+        "role": "tertiary",
+        "displayName": "Protein Blue",
+        "canonical": "oklch(75.8% 0.123 263.8)",
+        "tonalRamp": [
+          "#00003a",
+          "#031a5e",
+          "#1c3a80",
+          "#395aa3",
+          "#5a7eca",
+          "#7da3f2",
+          "#b2cbfc",
+          "#e7efff"
+        ]
+      },
+      "carbs-green": {
+        "role": "tertiary",
+        "displayName": "Carbs Green",
+        "canonical": "oklch(79.9% 0.149 150.1)",
+        "tonalRamp": [
+          "#001102",
+          "#012d10",
+          "#054d21",
+          "#0e7034",
+          "#26984d",
+          "#53be71",
+          "#7ce696",
+          "#c7ffd1"
+        ]
+      },
+      "fat-amber": {
+        "role": "tertiary",
+        "displayName": "Fat Amber",
+        "canonical": "oklch(82.9% 0.130 79.9)",
+        "tonalRamp": [
+          "#150800",
+          "#322000",
+          "#553a00",
+          "#795710",
+          "#a57712",
+          "#cf9a35",
+          "#f7c160",
+          "#feecce"
+        ]
+      },
+      "water-cyan": {
+        "role": "tertiary",
+        "displayName": "Water Cyan",
+        "canonical": "oklch(78.1% 0.110 219.8)",
+        "tonalRamp": [
+          "#000e15",
+          "#002934",
+          "#014858",
+          "#06687f",
+          "#208eaa",
+          "#42b4d4",
+          "#6edbfc",
+          "#d6f5ff"
+        ]
+      },
+      "action-red-hover": {
+        "role": "primary",
+        "displayName": "Action Red Hover"
+      },
+      "on-action": {
+        "role": "neutral",
+        "displayName": "On Action"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The kcal number in the center of the ring. Sized in container units of the ring."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The one page headline."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section headings."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The sentence under the headline. Maximum 30ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text. Blocks stay at or below 34rem."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navigation links and metadata."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "File names and checksums."
+      }
+    },
+    "shadows": [
+      {
+        "name": "device",
+        "value": "0 0 0 1px rgb(255 255 255 / 0.09), 0 28px 56px -18px rgb(0 0 0 / 0.75)",
+        "purpose": "Only on the frame around an app screenshot."
+      }
+    ],
+    "focus": [
+      {
+        "name": "focus-ring",
+        "value": "outline: 2px solid #FF7A1A; outline-offset: 3px; border-radius: 6px",
+        "purpose": "Keyboard focus on every interactive element on the page."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-web",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "State transitions and ring fades on the page."
+      },
+      {
+        "name": "ease-app",
+        "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "purpose": "`EASE` in `Components.kt` for app transitions."
+      },
+      {
+        "name": "duration-state",
+        "value": "150ms to 200ms",
+        "purpose": "Color changes on buttons, chips, toggles, and links."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "300ms to 400ms",
+        "purpose": "Top bar border, link fade-in, ring close, and count fade."
+      },
+      {
+        "name": "ring-sweep",
+        "value": "292.6deg to 333.6deg of a 360 dash, driven by scroll",
+        "purpose": "The ring closes as the visitor reads. Static under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "max-width: 899px"
+      }
+    ],
+    "ring": {
+      "viewBox": "0 0 400 400",
+      "radius": 150,
+      "strokeWidth": 69,
+      "lineCap": "round",
+      "rotation": "-30deg",
+      "openArcDeg": 292.6,
+      "capsMeetDeg": 333.6
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action in a view, such as Download APK.",
+      "html": "<a class=\"ds-btn-main\" href=\"#\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14\"/></svg>Download APK</a>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-btn-main{display:inline-flex;align-items:center;gap:0.55rem;height:56px;padding:0 1.5rem;border-radius:18px;background:var(--act);color:var(--on-act);font-family:var(--font);font-weight:750;font-size:1.05rem;text-decoration:none;transition:background-color .2s var(--ease),transform .2s var(--ease);} .ds-btn-main svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;} .ds-btn-main:hover{background:#ff4d66;} .ds-btn-main:active{transform:translateY(1px);} .ds-btn-main:focus-visible{outline:2px solid var(--ring);outline-offset:3px;}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The second action next to the primary button, such as View source.",
+      "html": "<a class=\"ds-btn-line\" href=\"#\">View source</a>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-btn-line{display:inline-flex;align-items:center;height:56px;padding:0 1.5rem;border-radius:18px;border:1px solid rgb(245 245 242 / 0.18);background:var(--bg);color:var(--ink);font-family:var(--font);font-weight:750;font-size:1.05rem;text-decoration:none;transition:background-color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease);} .ds-btn-line:hover{border-color:rgb(245 245 242 / 0.45);background:var(--surface);} .ds-btn-line:active{transform:translateY(1px);} .ds-btn-line:focus-visible{outline:2px solid var(--ring);outline-offset:3px;}"
+    },
+    {
+      "name": "Top Bar",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky 64px bar with the ring mark, the name, a muted Source link, and a red Download pill.",
+      "html": "<header class=\"ds-bar\"><a class=\"ds-brand\" href=\"#\"><svg viewBox=\"0 0 400 400\" aria-hidden=\"true\"><circle cx=\"200\" cy=\"200\" r=\"150\" pathLength=\"360\" transform=\"rotate(-30 200 200)\"/></svg><span>Macra</span></a><nav class=\"ds-links\"><a href=\"#\">Source</a><a class=\"ds-get\" href=\"#\">Download</a></nav></header>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-bar{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;background:rgb(12 12 13 / 0.92);border-bottom:1px solid var(--line);font-family:var(--font);color:var(--ink);} .ds-brand{display:inline-flex;align-items:center;gap:0.6rem;font-weight:800;font-size:1.25rem;letter-spacing:-0.03em;color:inherit;text-decoration:none;} .ds-brand svg{width:28px;height:28px;} .ds-brand circle{fill:none;stroke:var(--ring);stroke-width:69;stroke-linecap:round;stroke-dasharray:292.6 360;} .ds-links{display:flex;gap:0.5rem;} .ds-links a{font-weight:650;font-size:0.95rem;padding:0.5rem 0.9rem;border-radius:999px;color:var(--muted);text-decoration:none;transition:color .2s var(--ease),background-color .2s var(--ease);} .ds-links a:hover{color:var(--ink);} .ds-links .ds-get{background:var(--act);color:var(--on-act);} .ds-links .ds-get:hover{background:#ff4d66;color:var(--on-act);} .ds-links a:focus-visible{outline:2px solid var(--ring);outline-offset:3px;}"
+    },
+    {
+      "name": "Closing Ring",
+      "kind": "custom",
+      "description": "The signature: the open orange ring of the app icon with the kcal left in its center.",
+      "html": "<div class=\"ds-ring\"><svg viewBox=\"0 0 400 400\" aria-hidden=\"true\"><circle cx=\"200\" cy=\"200\" r=\"150\" pathLength=\"360\" transform=\"rotate(-30 200 200)\"/></svg><div class=\"ds-count\"><span class=\"ds-num\">2,270</span><span class=\"ds-unit\">kcal left</span></div></div>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-ring{position:relative;width:260px;aspect-ratio:1;container-type:inline-size;font-family:var(--font);background:var(--bg);font-variant-numeric:tabular-nums;} .ds-ring svg{display:block;width:100%;height:100%;overflow:visible;} .ds-ring circle{fill:none;stroke:var(--ring);stroke-width:69;stroke-linecap:round;stroke-dasharray:292.6 360;transition:stroke-dasharray .4s var(--ease);} .ds-ring:hover circle{stroke-dasharray:333.6 360;} .ds-count{position:absolute;inset:0;display:grid;place-content:center;text-align:center;} .ds-num{font-size:17cqi;font-weight:800;letter-spacing:-0.04em;line-height:0.9;color:var(--ink);} .ds-unit{margin-top:1.4cqi;font-size:4.4cqi;font-weight:600;color:var(--muted);}"
+    },
+    {
+      "name": "Phone Frame",
+      "kind": "card",
+      "refersTo": "phone-frame",
+      "description": "A black frame around a real app screenshot. The only element with a shadow.",
+      "html": "<div class=\"ds-phone\"><div class=\"ds-screen\"></div></div>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-phone{width:200px;padding:7px;border-radius:36px;background:#000;box-shadow:0 0 0 1px rgb(255 255 255 / 0.09),0 28px 56px -18px rgb(0 0 0 / 0.75);} .ds-screen{aspect-ratio:720/1520;border-radius:29px;background:var(--bg);}"
+    },
+    {
+      "name": "Fact List",
+      "kind": "custom",
+      "description": "Plain facts as a definition list with Line rules between rows.",
+      "html": "<dl class=\"ds-facts\"><div><dt>No account</dt><dd>You do not sign in. Macra starts with an empty diary.</dd></div><div><dt>No server</dt><dd>All entries are in one file on the phone, <code>macra.json</code>.</dd></div></dl>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-facts{margin:0;font-family:var(--font);font-size:1.125rem;line-height:1.55;color:var(--ink);background:var(--bg);} .ds-facts div{padding:1rem 0;border-top:1px solid var(--line);} .ds-facts div:last-child{border-bottom:1px solid var(--line);} .ds-facts dt{font-weight:750;font-size:1.15rem;letter-spacing:-0.01em;} .ds-facts dd{margin:0.2rem 0 0;color:var(--muted);} .ds-facts code{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:0.88em;color:var(--ink);background:var(--surface);padding:0.1em 0.4em;border-radius:6px;}"
+    },
+    {
+      "name": "Install Steps",
+      "kind": "custom",
+      "description": "An ordered list with Ring Orange step numbers.",
+      "html": "<ol class=\"ds-steps\"><li><span>Download the APK on your Android phone.</span></li><li><span>Open the file from the download notification.</span></li><li><span>Allow the install when Android asks.</span></li></ol>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-steps{margin:0;padding:0;list-style:none;counter-reset:step;display:grid;gap:0.9rem;font-family:var(--font);font-size:1.125rem;color:var(--ink);background:var(--bg);} .ds-steps li{counter-increment:step;display:grid;grid-template-columns:2.25rem 1fr;align-items:baseline;} .ds-steps li::before{content:counter(step);font-weight:800;color:var(--ring);}"
+    },
+    {
+      "name": "App Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The app container: Surface on Ground, 24px corners, 20px padding, no shadow.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-big\"><span>1,018</span><small>kcal left</small></div><div class=\"ds-meter\"><i></i></div></div>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-card{width:280px;display:grid;gap:16px;padding:20px;border-radius:24px;background:var(--surface);font-family:var(--font);color:var(--ink);font-variant-numeric:tabular-nums;} .ds-big{display:flex;align-items:baseline;gap:6px;} .ds-big span{font-size:40px;font-weight:800;letter-spacing:-0.05em;} .ds-big small{font-size:15px;font-weight:600;color:var(--muted);} .ds-meter{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden;} .ds-meter i{display:block;width:55%;height:100%;border-radius:4px;background:var(--p);}"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "App filter chip. Selected chips invert to Ink with Ground text.",
+      "html": "<div class=\"ds-chips\"><button class=\"ds-chip ds-sel\">Breakfast</button><button class=\"ds-chip\">Lunch</button></div>",
+      "css": ":host{--bg:#0c0c0d;--surface:#18181a;--surface-2:#242427;--bar:#3a3a3e;--ink:#f5f5f2;--muted:#9b9b97;--line:rgb(255 255 255 / 0.08);--act:#ff2e4c;--on-act:#0c0c0d;--ring:#ff7a1a;--p:#88afff;--c:#6ed889;--f:#f3bd5c;--font:'Host Grotesk Variable',system-ui,sans-serif;--ease:cubic-bezier(0.16,1,0.3,1);} .ds-chips{display:flex;gap:8px;padding:12px;background:var(--bg);} .ds-chip{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--bar);background:transparent;color:var(--ink);font-family:var(--font);font-size:14px;font-weight:650;cursor:pointer;transition:background-color .15s,color .15s;} .ds-chip:hover{border-color:var(--muted);} .ds-chip.ds-sel{background:var(--ink);border-color:var(--ink);color:var(--bg);} .ds-chip:focus-visible{outline:2px solid var(--ring);outline-offset:3px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Open Ring",
+    "overview": "Macra is a near-black instrument with one orange ring. The ring is the app icon. It also shows how much of the day is left. Every surface starts from a dark, flat ground. Large, heavy numbers carry the information. Color appears only when it means something: red for the one action, orange for progress, and four macro hues for protein, carbs, fat, and water.\n\nThe Android app in `app/src/main/java/app/macra/ui/` is the source of this world. `Theme.kt` holds the tokens, and `Components.kt` holds the controls. The product page in `site/src/pages/index.astro` extends the same world to the web. On the page, the ring grows to poster size and closes as the visitor scrolls to the download.\n\nDensity is calm. Surfaces are flat, corners are soft, and type is tight and heavy. The app also defines a light theme in `Theme.kt`. The page uses the dark theme only.",
+    "keyCharacteristics": [
+      "A near-black ground with tonal surface steps and no decorative shadows.",
+      "One orange ring as the signature, at icon size and at poster size.",
+      "One red action per view, with near-black text on the red.",
+      "Host Grotesk at weight 800 with negative tracking for headlines and numbers.",
+      "Tabular numerals everywhere.",
+      "Macro colors only where they mean a macro."
+    ],
+    "rules": [
+      {
+        "name": "The One Red Action Rule",
+        "body": "Action Red fills the main action only. Each view has one red action. Text on Action Red is `on-action`, because `onColor` in `Theme.kt` picks near-black for contrast.",
+        "section": "colors"
+      },
+      {
+        "name": "The Macro Meaning Rule",
+        "body": "Use Protein Blue, Carbs Green, Fat Amber, and Water Cyan only where they mean protein, carbs, fat, and water. Do not use them as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ring Orange Rule",
+        "body": "Ring Orange marks the ring, progress, and focus. It does not fill a button.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Numbers Rule",
+        "body": "All numbers use tabular figures. The page sets `font-variant-numeric: tabular-nums` on the body. The app sets `tnum` on every number.",
+        "section": "typography"
+      },
+      {
+        "name": "The Heavy Number Rule",
+        "body": "A key number is weight 800 with negative tracking. Its unit is smaller, weight 600, and Muted. The app component `BigNum` and the ring count follow this rule.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Cards, buttons, and bars have no shadow. The only shadow in the system is under a phone frame that holds a real app screenshot.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use Ground as the base of every view and step up to Surface and Surface 2 for containers.",
+      "Do put one Action Red action in each view, with `on-action` text.",
+      "Do set every number in tabular figures, and set key numbers at weight 800 with negative tracking.",
+      "Do use Ring Orange for the ring, for progress, and for the focus outline.",
+      "Do color a macro word or value only with its own macro color.",
+      "Do show real app screenshots in the phone frame, and mark demo data as demo data.",
+      "Do draw web icons as inline SVG strokes, 22px, stroke width 2.2, with round caps and round joins.",
+      "Do give the ring a static state for reduced motion."
+    ],
+    "donts": [
+      "Don't add shadows to cards, buttons, or bars. The device shadow is for phone frames only.",
+      "Don't use a macro color as a general accent or for decoration.",
+      "Don't fill a button with Ring Orange.",
+      "Don't put Ink or white text on Action Red.",
+      "Don't add a second accent hue outside the tokens above."
+    ]
+  }
+}
