@@ -1,9 +1,11 @@
 package app.macra.ui
 
+import android.graphics.Paint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -36,8 +38,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -52,6 +57,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.core.content.res.ResourcesCompat
+import app.macra.R
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -108,24 +115,24 @@ fun Label(text: String, modifier: Modifier = Modifier, color: Color = LocalT.cur
     Txt(text.uppercase(), 11f, 700, color, modifier, ls = 0.08f, maxLines = 1)
 }
 
-/** Material Symbols icon, drawn from the bundled ligature font. */
+/**
+ * Material Symbols icon, drawn from the bundled ligature font.
+ * Each icon glyph has its center half an em above the baseline, so the baseline goes half an em below the box center.
+ * Text layout would place the glyph by the line metrics of the font, which puts it too low.
+ */
 @Composable
 fun Sym(name: String, size: Int = 24, color: Color = LocalT.current.ink, fill: Boolean = false, modifier: Modifier = Modifier) {
-    val fs = with(LocalDensity.current) { size.dp.toSp() }
-    Box(modifier.size(size.dp), contentAlignment = Alignment.Center) {
-        BasicText(
-            name,
-            style = TextStyle(
-                fontFamily = if (fill) SymbolsFill else Symbols,
-                fontSize = fs,
-                lineHeight = fs,
-                color = color,
-                textAlign = TextAlign.Center,
-                lineHeightStyle = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None),
-            ),
-            maxLines = 1,
-            softWrap = false,
-        )
+    val ctx = LocalContext.current
+    val paint = remember(fill) {
+        Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            typeface = ResourcesCompat.getFont(ctx, if (fill) R.font.symbols_fill else R.font.symbols)
+            textAlign = Paint.Align.CENTER
+        }
+    }
+    Canvas(modifier.size(size.dp)) {
+        paint.textSize = this.size.minDimension
+        paint.color = color.toArgb()
+        drawIntoCanvas { it.nativeCanvas.drawText(name, center.x, center.y + paint.textSize / 2f, paint) }
     }
 }
 

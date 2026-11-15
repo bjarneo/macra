@@ -69,5 +69,3 @@ val Grotesk = FontFamily(
     },
 )
 
-val Symbols = FontFamily(Font(R.font.symbols))
-val SymbolsFill = FontFamily(Font(R.font.symbols_fill))

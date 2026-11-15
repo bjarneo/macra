@@ -78,9 +78,10 @@ fun DiaryScreen(d: Data, u: Ui, vm: MacraViewModel, onPickDate: () -> Unit) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Txt(meal.label, 17f, 750, modifier = Modifier.alignByBaseline(), ls = -0.01f)
-                    if (list.isNotEmpty()) Txt("${fmt(d.total(list).kcal)} kcal", 13f, color = T.muted, modifier = Modifier.alignByBaseline(), tnum = true)
-                    Box(Modifier.weight(1f))
+                    Row(Modifier.weight(1f), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Txt(meal.label, 17f, 750, modifier = Modifier.alignByBaseline(), ls = -0.01f)
+                        if (list.isNotEmpty()) Txt("${fmt(d.total(list).kcal)} kcal", 13f, color = T.muted, modifier = Modifier.alignByBaseline(), tnum = true)
+                    }
                     IconBtn("add", { vm.openSearch(meal) }, size = 44, bg = T.surface2, desc = "Add to ${meal.label}")
                 }
                 list.forEach { e ->
