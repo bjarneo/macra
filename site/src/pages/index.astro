@@ -1,0 +1,832 @@
+---
+import "@fontsource-variable/host-grotesk";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const version = "1.1.0";
+const repo = "https://github.com/bjarneo/macra";
+const apk = `${repo}/releases/download/v${version}/macra-${version}.apk`;
+const sha256 = "4db1d770951be167c28c5c19fed2d4127490661f8178354aed2d6d30709e71c9";
+const size = "26 MB";
+const goal = 2270;
+// The kcal left in the demo diary screenshot.
+const demoLeft = 1018;
+
+const screens = {
+  diary: { src: `${base}screens/diary.webp`, alt: "The Macra diary: 1,018 kcal remaining, the grams of protein, carbs, and fat left, and the foods for breakfast." },
+  search: { src: `${base}screens/search.webp`, alt: "Search for skyr: one built-in food and products from Open Food Facts, each with the amount and the kcal." },
+  food: { src: `${base}screens/food.webp`, alt: "Add food: an amount of 150 g, a meal choice, and the nutrition facts for that amount." },
+  progress: { src: `${base}screens/progress.webp`, alt: "Progress: the weight chart with a 7-day average line, the goal weight, and the kcal for the last 7 days." },
+  settings: { src: `${base}screens/settings.webp`, alt: "Settings: daily targets for energy, protein, carbs, fat, water, and goal weight, and the reminder switches." },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Macra: a free macro tracker for Android</title>
+    <meta name="description" content="Macra is a free calorie and macro tracker for Android. It has no account, no server, and no ads. Your data stays on your phone." />
+    <meta name="theme-color" content="#0C0C0D" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Macra: a free macro tracker for Android" />
+    <meta property="og:description" content="Count calories and macros. No account, no server, and no ads." />
+    <meta property="og:url" content="https://bjarneo.github.io/macra/" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="bar" data-bar>
+      <a class="brand" href={base} aria-label="Macra, back to top">
+        <svg class="mini" viewBox="0 0 400 400" aria-hidden="true">
+          <circle data-arc cx="200" cy="200" r="150" pathLength="360" transform="rotate(-30 200 200)" /><circle class="full" cx="200" cy="200" r="150" />
+        </svg>
+        <span>Macra</span>
+      </a>
+      <nav class="links" aria-label="Main">
+        <a href={repo}>Source</a>
+        <a class="bar-get" href={apk}>Download</a>
+      </nav>
+    </header>
+
+    <main id="main" class="layout" data-goal={goal} data-left={demoLeft}>
+      <div class="stage" aria-hidden="true">
+        <div class="ring">
+          <svg viewBox="0 0 400 400">
+            <circle data-arc cx="200" cy="200" r="150" pathLength="360" transform="rotate(-30 200 200)" /><circle class="full" cx="200" cy="200" r="150" />
+          </svg>
+          <div class="count">
+            <span class="num" data-count>{goal.toLocaleString("en-US")}</span>
+            <span class="unit">kcal left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flow">
+        <section class="hero" id="top" data-hero>
+          <h1>Count macros.<br />Keep your data.</h1>
+          <p class="lede">Macra is a free calorie and macro tracker for Android. It has no account, no server, and no ads.</p>
+          <div class="actions">
+            <a class="btn btn-main" href={apk}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
+              Download APK
+            </a>
+            <a class="btn btn-line" href={repo}>View source</a>
+          </div>
+          <p class="meta">Version {version} · Android 9 or newer · {size}</p>
+        </section>
+
+        <section class="part" id="diary" aria-labelledby="diary-h" data-day>
+          <div class="copy">
+            <h2 id="diary-h">See what is left for today.</h2>
+            <p>The diary shows the kcal and the grams of <span class="m-p">protein</span>, <span class="m-c">carbs</span>, and <span class="m-f">fat</span> that remain. Each meal lists its foods with the amount and the kcal.</p>
+          </div>
+          <figure class="phones">
+            <div class="phone"><img src={screens.diary.src} alt={screens.diary.alt} width="720" height="1520" loading="lazy" decoding="async" /></div>
+          </figure>
+        </section>
+
+        <section class="part" id="log" aria-labelledby="log-h">
+          <div class="copy">
+            <h2 id="log-h">Log a meal in seconds.</h2>
+            <p>Search the 21 built-in foods and the Open Food Facts database. Scan the barcode of a packaged product. Set the amount, choose the meal, and add it.</p>
+          </div>
+          <figure class="phones pair">
+            <div class="phone"><img src={screens.search.src} alt={screens.search.alt} width="720" height="1520" loading="lazy" decoding="async" /></div>
+            <div class="phone"><img src={screens.food.src} alt={screens.food.alt} width="720" height="1520" loading="lazy" decoding="async" /></div>
+          </figure>
+        </section>
+
+        <section class="part" id="trend" aria-labelledby="trend-h">
+          <div class="copy">
+            <h2 id="trend-h">Follow the trend, not one day.</h2>
+            <p>Log your weight in the morning. Macra draws the 7-day average and shows your average kcal and macros for the last week.</p>
+          </div>
+          <figure class="phones">
+            <div class="phone"><img src={screens.progress.src} alt={screens.progress.alt} width="720" height="1520" loading="lazy" decoding="async" /></div>
+          </figure>
+        </section>
+
+        <section class="part" id="private" aria-labelledby="private-h" data-night>
+          <div class="copy">
+            <h2 id="private-h">Your data stays on your phone.</h2>
+            <dl class="facts">
+              <div><dt>No account</dt><dd>You do not sign in. Macra starts with an empty diary.</dd></div>
+              <div><dt>No server</dt><dd>All entries are in one file on the phone, <code>macra.json</code>.</dd></div>
+              <div><dt>No tracking</dt><dd>The app sends no analytics and shows no ads.</dd></div>
+              <div><dt>Two optional connections</dt><dd>Open Food Facts receives only the barcode or the search text. Health Connect syncs your weight only after you turn it on.</dd></div>
+            </dl>
+            <p>To keep a copy of your diary, export it as a CSV file in Settings.</p>
+          </div>
+          <figure class="phones">
+            <div class="phone"><img src={screens.settings.src} alt={screens.settings.alt} width="720" height="1520" loading="lazy" decoding="async" /></div>
+          </figure>
+        </section>
+
+        <section class="part install" id="install" aria-labelledby="install-h" data-end>
+          <div class="end-ring" aria-hidden="true">
+            <div class="ring">
+              <svg viewBox="0 0 400 400"><circle data-arc cx="200" cy="200" r="150" pathLength="360" transform="rotate(-30 200 200)" /><circle class="full" cx="200" cy="200" r="150" /></svg>
+              <div class="count">
+                <span class="num" data-count>{goal.toLocaleString("en-US")}</span>
+                <span class="unit">kcal left</span>
+              </div>
+            </div>
+          </div>
+          <div class="copy">
+            <h2 id="install-h">Install Macra.</h2>
+            <ol class="steps">
+              <li><span>Download <code>macra-{version}.apk</code> on your Android phone.</span></li>
+              <li><span>Open the file from the download notification or the Files app.</span></li>
+              <li><span>Allow the install when Android asks.</span></li>
+            </ol>
+            <div class="actions">
+              <a class="btn btn-main" href={apk}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
+                Download APK
+              </a>
+              <a class="btn btn-line" href={`${repo}/releases`}>All releases</a>
+            </div>
+            <p class="meta">Version {version} · Android 9 or newer · {size}</p>
+            <p class="sum"><span>SHA-256</span><code>{sha256}</code></p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <p>Macra is free software under the <a href={`${repo}/blob/main/LICENSE`}>MIT license</a>.</p>
+      <p>Food data comes from <a href="https://world.openfoodfacts.org">Open Food Facts</a>, under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License</a>.</p>
+      <p>Screenshots show demo data.</p>
+    </footer>
+
+    <script>
+      // The ring is the app icon: an open arc of 292.6 degrees. Round caps meet when the arc reaches 333.6 degrees,
+      // so the arc stops there and a full circle fades in when the day closes.
+      const OPEN = 292.6;
+      const MEET = 333.6;
+      const main = document.querySelector<HTMLElement>("main");
+      const arcs = document.querySelectorAll<SVGCircleElement>("[data-arc]");
+      const counts = document.querySelectorAll<HTMLElement>("[data-count]");
+      const day = document.querySelector<HTMLElement>("[data-day]");
+      const night = document.querySelector<HTMLElement>("[data-night]");
+      const end = document.querySelector<HTMLElement>("[data-end]");
+      const hero = document.querySelector<HTMLElement>("[data-hero]");
+      const bar = document.querySelector<HTMLElement>("[data-bar]");
+      const goal = Number(main?.dataset.goal ?? 0);
+      const demo = Number(main?.dataset.left ?? 0);
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const narrow = window.matchMedia("(max-width: 899px)");
+
+      // The count follows the demo day: the full target at the top, the screenshot value while the app
+      // screenshots are on screen, and zero at the install section.
+      // The count hides while the app screenshots show their own kcal values, so one view never shows the value twice.
+      function hidden(): boolean {
+        if (!day || !night || still.matches) return false;
+        const h = window.innerHeight;
+        const y = window.scrollY;
+        return y > day.offsetTop - h * 0.75 && y < night.offsetTop - h * 0.5;
+      }
+
+      function left(): number {
+        if (!day || !night || !end || still.matches) return goal;
+        const h = window.innerHeight;
+        const y = window.scrollY;
+        const a1 = Math.max(1, day.offsetTop - h * 0.5);
+        const a2 = night.offsetTop - h * 0.5;
+        const a3 = Math.max(a2 + 1, end.offsetTop - h * 0.35);
+        const ease = (t: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3);
+        if (y <= a1) return goal - (goal - demo) * ease(y / a1);
+        // On small screens the large ring does not stay on screen. The countdown runs while the ring in the install section scrolls in.
+        const b2 = narrow.matches ? end.offsetTop - h * 0.9 : a2;
+        const b3 = narrow.matches ? end.offsetTop - h * 0.2 : a3;
+        if (y <= b2) return demo;
+        const t = Math.min(1, Math.max(0, (y - b2) / Math.max(1, b3 - b2)));
+        return demo * (1 - (narrow.matches ? t : ease(t)));
+      }
+
+      function draw() {
+        const l = Math.round(left());
+        const closed = l <= 0;
+        const deg = OPEN + (MEET - OPEN) * (1 - l / goal);
+        arcs.forEach((a) => (a.style.strokeDasharray = `${deg} 360`));
+        counts.forEach((c) => (c.textContent = l.toLocaleString("en-US")));
+        document.documentElement.classList.toggle("closed", closed);
+        document.documentElement.classList.toggle("quiet", hidden());
+      }
+
+      let queued = false;
+      function queue() {
+        if (!queued) {
+          queued = true;
+          requestAnimationFrame(() => {
+            queued = false;
+            draw();
+          });
+        }
+      }
+      window.addEventListener("scroll", queue, { passive: true });
+      window.addEventListener("resize", queue);
+      still.addEventListener("change", queue);
+      narrow.addEventListener("change", queue);
+      draw();
+
+      // The bar links stay hidden while the same buttons are on screen.
+      if (hero && bar) {
+        new IntersectionObserver(([e]) => bar.classList.toggle("past", !e.isIntersecting), { rootMargin: "-64px 0px 0px 0px" }).observe(hero);
+      }
+      if (end && bar) {
+        new IntersectionObserver(([e]) => bar.classList.toggle("at-end", e.isIntersecting), { threshold: 0.25 }).observe(end);
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #0c0c0d;
+    --surface: #18181a;
+    --surface-2: #242427;
+    --ink: #f5f5f2;
+    --muted: #9b9b97;
+    --line: rgb(255 255 255 / 0.08);
+    --act: #ff2e4c;
+    --on-act: #0c0c0d;
+    --ring: #ff7a1a;
+    --p: #88afff;
+    --c: #6ed889;
+    --f: #f3bd5c;
+    --font: "Host Grotesk Variable", system-ui, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    color-scheme: dark;
+    scrollbar-color: var(--surface-2) var(--bg);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 1.125rem;
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--ring);
+    color: var(--bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: rgb(245 245 242 / 0.35);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  a:hover {
+    text-decoration-color: var(--ring);
+  }
+
+  code {
+    font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+    font-size: 0.88em;
+    color: var(--ink);
+    background: var(--surface);
+    padding: 0.1em 0.4em;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2 {
+    margin: 0;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(2.9rem, 5.4vw, 5.6rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 3.3vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 20;
+    padding: 0.6rem 1rem;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .skip:focus {
+    top: 1rem;
+  }
+
+  /* Top bar */
+
+  .bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
+    background: rgb(12 12 13 / 0.92);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s var(--ease);
+  }
+
+  .bar.past {
+    border-bottom-color: var(--line);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.03em;
+    text-decoration: none;
+  }
+
+  .mini {
+    width: 28px;
+    height: 28px;
+    display: none;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .links {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s var(--ease), visibility 0.3s;
+  }
+
+  .bar.past .links {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .links a {
+    font-weight: 650;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    color: var(--muted);
+    transition: color 0.2s var(--ease), background-color 0.2s var(--ease), opacity 0.3s var(--ease);
+  }
+
+  .links a:hover {
+    color: var(--ink);
+  }
+
+  .links .bar-get {
+    background: var(--act);
+    color: var(--on-act);
+  }
+
+  .links .bar-get:hover {
+    color: var(--on-act);
+    background: #ff4d66;
+  }
+
+  .bar.at-end .bar-get {
+    display: none;
+  }
+
+  /* Ring */
+
+  .full,
+  [data-arc] {
+    fill: none;
+    stroke-width: 69;
+  }
+
+  [data-arc] {
+    stroke: var(--ring);
+    stroke-linecap: round;
+    stroke-dasharray: 292.6 360;
+  }
+
+  .full {
+    stroke: var(--ring);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+
+  .closed .full {
+    opacity: 1;
+  }
+
+  .end-ring {
+    display: none;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    margin-top: -64px;
+  }
+
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: grid;
+    place-items: center;
+    align-self: start;
+    padding: 64px 2vw 0 4vw;
+  }
+
+  .ring {
+    position: relative;
+    width: min(70vh, 40vw);
+    aspect-ratio: 1;
+    container-type: inline-size;
+  }
+
+  .ring svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .stage .count {
+    transition: opacity 0.35s var(--ease);
+  }
+
+  .quiet .stage .count {
+    opacity: 0;
+  }
+
+  .count {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .num {
+    font-size: 17cqi;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+  }
+
+  .unit {
+    margin-top: 1.4cqi;
+    font-size: 4.4cqi;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  /* Content */
+
+  .flow {
+    padding: 0 clamp(1.5rem, 5vw, 5rem) 0 clamp(1rem, 2vw, 2rem);
+  }
+
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.6rem;
+    padding: 96px 0 4rem;
+  }
+
+  .lede {
+    max-width: 30ch;
+    font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    height: 56px;
+    padding: 0 1.5rem;
+    border-radius: 18px;
+    font-weight: 750;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .btn-main {
+    background: var(--act);
+    color: var(--on-act);
+  }
+
+  .btn-main:hover {
+    background: #ff4d66;
+  }
+
+  .btn-line {
+    border: 1px solid rgb(245 245 242 / 0.18);
+    color: var(--ink);
+  }
+
+  .btn-line:hover {
+    border-color: rgb(245 245 242 / 0.45);
+    background: var(--surface);
+  }
+
+  .meta {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .part {
+    display: grid;
+    gap: 2.5rem;
+    padding: clamp(5rem, 16vh, 9rem) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .copy {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 34rem;
+  }
+
+  .copy > p {
+    color: var(--muted);
+  }
+
+  .copy > p:first-of-type {
+    color: var(--ink);
+  }
+
+  .m-p,
+  .m-c,
+  .m-f {
+    font-weight: 700;
+  }
+
+  .m-p {
+    color: var(--p);
+  }
+
+  .m-c {
+    color: var(--c);
+  }
+
+  .m-f {
+    color: var(--f);
+  }
+
+  .phones {
+    margin: 0;
+    display: flex;
+    gap: clamp(1rem, 2vw, 1.75rem);
+    align-items: flex-start;
+  }
+
+  .phone {
+    width: clamp(240px, 25vw, 370px);
+    padding: 7px;
+    border-radius: 36px;
+    background: #000;
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.09),
+      0 28px 56px -18px rgb(0 0 0 / 0.75);
+  }
+
+  .pair .phone {
+    width: min(300px, calc(50% - 0.9rem));
+  }
+
+  .pair .phone:last-child {
+    margin-top: 3.5rem;
+  }
+
+  .phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 29px;
+  }
+
+  .facts {
+    margin: 0;
+    display: grid;
+    gap: 0;
+  }
+
+  .facts div {
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .facts div:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .facts dt {
+    font-weight: 750;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+  }
+
+  .facts dd {
+    margin: 0.2rem 0 0;
+    color: var(--muted);
+  }
+
+  .install {
+    min-height: 100svh;
+    align-content: center;
+  }
+
+  .steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    align-items: baseline;
+  }
+
+  .steps li > span {
+    min-width: 0;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    font-weight: 800;
+    color: var(--ring);
+  }
+
+  .sum {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .sum code {
+    overflow-wrap: anywhere;
+    background: none;
+    padding: 0;
+    color: var(--muted);
+  }
+
+  .foot {
+    display: grid;
+    gap: 0.4rem;
+    padding: 3rem clamp(1.5rem, 5vw, 5rem) 3.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  /* Small screens: the ring sits above the headline, and the bar carries a small ring. */
+
+  @media (max-width: 899px) {
+    .layout {
+      grid-template-columns: minmax(0, 1fr);
+      margin-top: 0;
+    }
+
+    .stage {
+      position: relative;
+      height: auto;
+      padding: 1.5rem 1rem 0;
+    }
+
+    .ring {
+      width: min(76vw, 380px);
+    }
+
+    .bar.past .mini {
+      display: block;
+    }
+
+    .flow {
+      padding: 0 1rem;
+    }
+
+    .hero {
+      min-height: 0;
+      padding: 2.5rem 0 4.5rem;
+      gap: 1.25rem;
+    }
+
+    .phone {
+      width: min(68vw, 290px);
+    }
+
+    .pair {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      margin-inline: -1rem;
+      padding: 0 1rem 1.5rem;
+      scrollbar-width: none;
+    }
+
+    .pair .phone {
+      flex: none;
+      width: min(68vw, 290px);
+      scroll-snap-align: center;
+    }
+
+    .end-ring {
+      display: block;
+    }
+
+    .end-ring .ring {
+      width: min(62vw, 300px);
+    }
+
+    .pair .phone:last-child {
+      margin-top: 0;
+    }
+
+    .install {
+      min-height: 0;
+    }
+  }
+</style>
